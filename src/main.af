@@ -1,5 +1,5 @@
-.needs <std> // includs the standard library header file that has functions that are necessary for most aflat programs to run
-import * from "io" under io; // import all of the function from the standard io module and put them under the io namespace
+.needs <std> // includes the standard library header file that has functions that are necessary for most aflat programs to run
+import * from "io" under io; // import all of the functions from the standard io module and put them under the io namespace
 import TodoItem from "./src/TodoItem"; // import the TodoItem class from the local src/TodoItem Module
 import string from "String"; // import the String class from the standard String module 
 import List from "Collections"; // import the List class from the standard Collections module
