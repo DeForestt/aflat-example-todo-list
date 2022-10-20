@@ -1,0 +1,85 @@
+.needs <std>
+import * from "io" under io;
+import TodoItem from "./src/TodoItem";
+import string from "String";
+import List from "Collections";
+import {str_toInt} from "strings" under st;
+import {print} from "String" under strin;
+
+int menu(List todoList) {
+	while true {
+		io.clear();
+		io.print("Your List:\n");
+		io.print("-------------------------------------------------------------\n");
+		todoList.forEach([TodoItem item, int index] => {
+			io.printInt(index + 1);
+			io.print(": ");
+			item.print();
+			io.print("\n");
+		});
+
+		if todoList.getCount() == 0 {
+			io.print("Congratulations! You've finished the TODO list!\n");
+		};
+		io.print("---------------------------------------------------------------\n");
+
+		io.print("\nMenu:\n");
+		io.print("1. Add a new item\n");
+		io.print("2. Remove an item\n");
+		io.print("3. Mark an item as done\n");
+		io.print("4. Delete all finished items\n");
+		io.print("q. quit\n");
+
+		char [256] input;
+		io.print("Enter your choice: ");
+		io.readString(input);
+		
+		char choice = input[0];
+		if choice == '1' {
+			io.print("Add new item\n");
+			io.print("Enter item title: ");
+			io.readString(input);
+			TodoItem newItem = TodoItem(input);
+			todoList.pushBack(newItem);
+		} else if choice == '2'{
+			io.print("Remove an item\n");
+			io.print("Enter item index: ");
+			io.readString(input);
+			int i = st.str_toInt(input);
+			if (i >= 1) & (i <= todoList.getCount()) {
+				todoList.drop(i - 1);
+			} else {
+				io.print("Command failed - the specified item index is out of range.\n", 'r');
+				io.print("Select enter to continue.");
+				io.readString(input);
+			};
+		} else if choice == '3' {
+			io.print("Complete an item\n");
+			io.print("Enter item index: ");
+			io.readString(input);
+			int i = st.str_toInt(input);
+			TodoItem selected = todoList.get(i - 1);
+			selected.complete();
+		} else if choice == '4' {
+			for int i = 0; i < todoList.getCount(); i++ {
+				TodoItem current = todoList.get(i);
+				if current.isCompleted() {
+					current.del();
+					todoList.drop(i);
+					i = i - 1;
+				};
+			}
+		} else if choice == 'q' return 0 else {
+			io.print("Command failed!\n",'r');
+			io.print("Enter any key to try again.");
+			io.readString(input);
+		};
+	};
+	return 0;
+};
+
+int main() {
+	List todoList = new List(TodoItem, 1);
+	menu(todoList);
+	return 0;
+};

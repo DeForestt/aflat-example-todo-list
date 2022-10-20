@@ -1,0 +1,34 @@
+.needs <std>
+
+import string from "String";
+import {print} from "String" under st;
+
+class TodoItem {
+    const string title = new string(title);
+    private bool done = false;
+
+    TodoItem init(adr title) {
+        return my;
+    };
+
+    int print() {
+        string complete = "✓";
+        if !my.done complete = "✗";
+        st.print(complete + " Title: " + my.title.copy());
+        return 0;
+    };
+
+    int complete() {
+        my.done = true;
+        return 0;
+    };
+
+    bool isCompleted() {
+        return my.done;
+    };
+
+    int del() {
+        string title = my.title;
+        delete title;
+    };
+};
