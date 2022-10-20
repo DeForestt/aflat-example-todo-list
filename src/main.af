@@ -70,9 +70,8 @@ int menu(List todoList) {
 				};
 			}
 		} else if choice == 'q' return 0 else {
-			io.print("Command failed!\n",'r');
-			io.print("Enter any key to try again.");
-			io.readString(input);
+			TodoItem newItem = TodoItem(input);
+			todoList.pushBack(newItem);
 		};
 	};
 	return 0;
