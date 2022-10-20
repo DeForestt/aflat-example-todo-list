@@ -1,24 +1,23 @@
-.needs <std>
-import * from "io" under io;
-import TodoItem from "./src/TodoItem";
-import string from "String";
-import List from "Collections";
-import {str_toInt} from "strings" under st;
-import {print} from "String" under strin;
+.needs <std> // includs the standard library header file that has functions that are necessary for most aflat programs to run
+import * from "io" under io; // import all of the function from the standard io module and put them under the io namespace
+import TodoItem from "./src/TodoItem"; // import the TodoItem class from the local src/TodoItem Module
+import string from "String"; // import the String class from the standard String module 
+import List from "Collections"; // import the List class from the standard Collections module
+import {str_toInt} from "strings" under st; // import the str_toInt function from the standard strings module and put it under the st namespace
 
-int menu(List todoList) {
-	while true {
-		io.clear();
-		io.print("Your List:\n");
+int menu(List todoList) { // Declares a function that takes a list of TodoItems as an argument
+	while true { // A while loop runs as long as the condition is true (in this case, always)
+		io.clear(); // This is a function in the io module that clears the console
+		io.print("Your List:\n"); // This is a function in the print module that prints a string to the console
 		io.print("-------------------------------------------------------------\n");
-		todoList.forEach([TodoItem item, int index] => {
+		todoList.forEach([TodoItem item, int index] => { // The List class has a forEach function that takes a lambda as an argument;
 			io.printInt(index + 1);
 			io.print(": ");
 			item.print();
 			io.print("\n");
 		});
 
-		if todoList.getCount() == 0 {
+		if todoList.getCount() == 0 { // The List class has a getCount function that returns the number of items in the list
 			io.print("Congratulations! You've finished the TODO list!\n");
 		};
 		io.print("---------------------------------------------------------------\n");
@@ -30,16 +29,16 @@ int menu(List todoList) {
 		io.print("4. Delete all finished items\n");
 		io.print("q. quit\n");
 
-		char [256] input;
+		char [256] input; // This is how you declare an array in aflat.
 		io.print("Enter your choice: ");
-		io.readString(input);
+		io.readString(input); // This is a function in the io module that reads a string from the console and stores it in a buffer
 		
-		char choice = input[0];
+		char choice = input[0]; // This is how you access an element in an array in aflat.
 		if choice == '1' {
 			io.print("Add new item\n");
 			io.print("Enter item title: ");
 			io.readString(input);
-			TodoItem newItem = TodoItem(input);
+			TodoItem newItem = TodoItem(input); // Creates an instance of the TodoItem class and passes the input string to the constructor
 			todoList.pushBack(newItem);
 		} else if choice == '2'{
 			io.print("Remove an item\n");
@@ -61,14 +60,14 @@ int menu(List todoList) {
 			TodoItem selected = todoList.get(i - 1);
 			selected.complete();
 		} else if choice == '4' {
-			for int i = 0; i < todoList.getCount(); i++ {
-				TodoItem current = todoList.get(i);
+			for int i = 0; i < todoList.getCount(); i++ { // This is you can use a for loop in aflat
+				TodoItem current = todoList.get(i); // The List class has a get function that returns the item at the specified index
 				if current.isCompleted() {
-					current.del();
-					todoList.drop(i);
+					current.del(); // Calls the del function on the current item
+					todoList.drop(i); // The List class has a drop function that removes the item at the specified index
 					i = i - 1;
 				};
-			}
+			};
 		} else if choice == 'q' return 0 else {
 			TodoItem newItem = TodoItem(input);
 			todoList.pushBack(newItem);
@@ -77,8 +76,8 @@ int menu(List todoList) {
 	return 0;
 };
 
-int main() {
-	List todoList = new List(TodoItem, 1);
-	menu(todoList);
+int main() { // The main function is the entry point of the program
+	List todoList = new List(TodoItem, 1); // create an empty list with a capacity of 1 TodoItem
+	menu(todoList); // Pass the list to the menu function
 	return 0;
 };

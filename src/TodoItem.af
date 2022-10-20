@@ -1,34 +1,34 @@
-.needs <std>
+.needs <std> // include the standard library header file that has some functions that are needed for most aflat programs to run
 
-import string from "String";
-import {print} from "String" under st;
+import string from "String"; // import the string library from the standard String module
+import { print } from "String" under st; // import the print function from the standard String module and put it under the st namespace
 
-class TodoItem {
-    const string title = new string(title);
-    private bool done = false;
+class TodoItem { // define a class called TodoItem
+    const string title = new string(title); // create a constant string called title and set it to the value of the title parameter that is passed to the constructor
+    private bool done = false; // create a private bool called done and set it to false
 
-    TodoItem init(adr title) {
-        return my;
+    TodoItem init(adr title) { // define the constructor for the TodoItem class the init function is called when a new instance of the class is created
+        return my; // return the instance of the class that is being created 'my is always a reference to the instance of the class'
     };
 
-    int print() {
-        string complete = "✓";
-        if !my.done complete = "✗";
-        st.print(complete + " Title: " + my.title.copy());
+    int print() { // define a function called print that returns an int
+        string complete = "✓"; // create a string called complete and set it to the ✓ character
+        if !my.done complete = "✗"; // if the done property is false then set the complete string to the ✗ character
+        st.print(complete + " Title: " + my.title); // print the complete string and the title string to the console
         return 0;
     };
 
     int complete() {
-        my.done = true;
+        my.done = true; // set the done property to true
         return 0;
     };
 
-    bool isCompleted() {
-        return my.done;
+    bool isCompleted() { // define a function called isCompleted that returns a bool
+        return my.done; // return the value of the done property
     };
 
-    int del() {
-        string title = my.title;
-        delete title;
+    int del() { // the del function is automatically called when the instance of the class is deleted.  It can also be called manually
+        string title = my.title; // create a string called value that is a reference to the value property of the instance of the class
+        delete title; // delete the title string that was created in the constructor. This will free up the memory that was allocated for the string
     };
 };
