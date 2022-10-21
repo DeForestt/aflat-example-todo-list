@@ -3,7 +3,7 @@ import * from "io" under io; // import all of the functions from the standard io
 import TodoItem from "./src/TodoItem"; // import the TodoItem class from the local src/TodoItem Module
 import string from "String"; // import the String class from the standard String module 
 import List from "Collections"; // import the List class from the standard Collections module
-import {str_toInt} from "strings" under st; // import the str_toInt function from the standard strings module and put it under the st namespace
+import {str_toInt, len} from "strings" under st; // import the str_toInt function from the standard strings module and put it under the st namespace
 
 int menu(List todoList) { // Declares a function that takes a list of TodoItems as an argument
 	while true { // A while loop runs as long as the condition is true (in this case, always)
@@ -69,8 +69,14 @@ int menu(List todoList) { // Declares a function that takes a list of TodoItems 
 				};
 			};
 		} else if choice == 'q' return 0 else {
-			TodoItem newItem = TodoItem(input);
-			todoList.pushBack(newItem);
+			if st.len(input) == 0 {
+				io.print("Command failed - you must enter a choice.\n", 'r');
+				io.print("Select enter to continue.");
+				io.readString(input);
+			} else {
+				TodoItem newItem = TodoItem(input);
+				todoList.pushBack(newItem);
+			};
 		};
 	};
 	return 0;
