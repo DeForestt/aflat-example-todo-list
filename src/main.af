@@ -10,9 +10,11 @@ import File from "files"; // import the File class from the standard File module
 import Result from "concurrency"; // import the Result class from the standard concurrency module
 import { createFile, openFile } from "files" under fs; // import the create function from the standard files module and put it under the f namespace
 
+const adr FILE_NAME = "todo.txt"; // the file that the todo list is stored in
+
 adr save(List _arg) : async.worker {
 	// create a new file called todo.txt
-	let file = fs.createFile("todo.txt");
+	let file = fs.createFile(FILE_NAME);
 	
 	_arg.forEach([TodoItem item, int index, File f] => {
 		item.write(f);
@@ -112,7 +114,7 @@ int menu(List todoList) { // Declares a function that takes a list of TodoItems 
 };
 
 int main() { // The main function is the entry point of the program
-	let saveFile = fs.openFile("todo.txt");
+	let saveFile = fs.openFile(FILE_NAME);
 	if saveFile != NULL {
 		io.print("Loading saved list...\n");
 		let saveList = saveFile.toList('\n');
