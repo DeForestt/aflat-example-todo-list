@@ -1,20 +1,36 @@
 .needs <std> // include the standard library header file that has some functions that are needed for most aflat programs to run
 
-import string from "String"; // import the string library from the standard String module
-import { print } from "String" under st; // import the print function from the standard String module and put it under the st namespace
+import string, String from "String"; // import the string library from the standard String module
+import { print, printString } from "String" under st; // import the print function from the standard String module and put it under the st namespace
+import { int_toString, str_toInt } from "strings" under strings;
+import DateTime from "DateTime";
+import { mmddyyyyToDate, Now } from "DateTime" under dt;
+import { printInt, print } from "io" under io;
+import File from "files";
+import List, LinkedList from "Collections";
 
 class TodoItem { // define a class called TodoItem
     const string title = new string(title); // create a constant string called title and set it to the value of the title parameter that is passed to the constructor
+    DateTime dueDate = dt.mmddyyyyToDate(dueDate); // create a DateTime object called dueDate and set it to the value of the dueDate parameter that is passed to the constructor
     private bool done = false; // create a private bool called done and set it to false
 
-    TodoItem init(adr title) { // define the constructor for the TodoItem class the init function is called when a new instance of the class is created
+    TodoItem init(adr title, adr dueDate) { // define the constructor for the TodoItem class the init function is called when a new instance of the class is created
         return my; // return the instance of the class that is being created 'my is always a reference to the instance of the class'
     };
 
     int print() { // define a function called print that returns an int
+        let now = dt.Now(5); // create a DateTime object called now and set it to the current date and time
+        let time = my.dueDate.getSeconds() - now.getSeconds(); // create an int called daysLeft and set it to the difference between the due date and the current date and time
         string complete = "✓"; // create a string called complete and set it to the ✓ character
         if !my.done complete = "✗"; // if the done property is false then set the complete string to the ✗ character
-        st.print(complete + " Title: " + my.title); // print the complete string and the title string to the console
+        if (time < -86400) & (!my.done) complete = "⚠"; // if the time is less than 0 and the done property is false then set the complete string to the ⚠ character
+        st.print(complete + "  Title: " + my.title); // print the complete string and the title string to the console
+        io.print("\t\t\tDue Date: ");
+        io.printInt(my.dueDate.getMonth()); // print the month of the dueDate to the console
+        io.print("/");
+        io.printInt(my.dueDate.getDay()); // print the day of the dueDate to the console
+        io.print("/");
+        io.printInt(my.dueDate.getYear()); // print the year of the dueDate to the 
         return 0;
     };
 
@@ -27,8 +43,42 @@ class TodoItem { // define a class called TodoItem
         return my.done; // return the value of the done property
     };
 
+    int write(File f) {
+        char[256] dateBuffer;
+        let sec = my.dueDate.getSeconds();
+        strings.int_toString(sec, dateBuffer);
+        f.write(dateBuffer);
+        f.write(";");
+        f.write(my.title.cstr());
+        f.write(";");
+        if my.done f.write("1")
+        else f.write("0");
+        f.write("\n");
+    };
+
     int del() { // the del function is automatically called when the instance of the class is deleted.  It can also be called manually
         string title = my.title; // create a string called value that is a reference to the value property of the instance of the class
         delete title; // delete the title string that was created in the constructor. This will free up the memory that was allocated for the string
     };
+};
+
+export List listFromStrings(LinkedList items) {
+    List l = new List(TodoItem, items.size()); // create a List object called l and set it to a new List object that will hold TodoItem objects
+    
+    for int i = 0; i < items.size() - 1; i++ {
+        let serialized = String(items.get(i)); // create a String object called serialized and set it to the value of the i'th item in the items list
+        let parts = serialized.split(';'); // create a LinkedList object called parts and set it to the result of splitting the serialized string on the ; character
+        String seconds = parts.get(0); // create a String object called getSeconds and set it to the value of the 0'th item in the parts list
+        String title = parts.get(1); // create a String object called title and set it to the value of the 1'st item in the parts list
+        String done = parts.get(2); // create a String object called done and set it to the value of the 2'nd item in the parts list
+
+        // create a TodoItem object called item and set it to a new TodoItem object that has the title and dueDate properties set to the values of the title and dueDate strings
+        TodoItem item = new TodoItem(title.getPrimitive(), "00-00-0000");
+        item.dueDate = new DateTime(seconds.toInt()); // set the dueDate property of the item to the value of the seconds string converted to an int
+        if done == "1" item.complete(); // if the done string is equal to 1 then call the complete function on the item
+        l.pushBack(item); // add the item to the l list
+        item.print();
+        io.print("\n");
+    };
+    return l; // return the l list
 };

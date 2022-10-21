@@ -1,9 +1,23 @@
 .needs <std> // includes the standard library header file that has functions that are necessary for most aflat programs to run
 import * from "io" under io; // import all of the functions from the standard io module and put them under the io namespace
 import TodoItem from "./src/TodoItem"; // import the TodoItem class from the local src/TodoItem Module
+import { listFromStrings } from "./src/TodoItem" under todo;
 import string from "String"; // import the String class from the standard String module 
 import List from "Collections"; // import the List class from the standard Collections module
 import {str_toInt, len} from "strings" under st; // import the str_toInt function from the standard strings module and put it under the st namespace
+import { worker } from "concurrency" under async; // import the worker function from the standard concurrency module and put it under the async namespace
+import File from "files"; // import the File class from the standard File module
+import { createFile, openFile } from "files" under fs; // import the create function from the standard files module and put it under the f namespace
+
+adr save(List _arg) : async.worker {
+	// create a new file called todo.txt
+	let file = fs.createFile("todo.txt");
+	
+	_arg.forEach([TodoItem item, int index, File f] => {
+		item.write(f);
+	}, file);
+	file.close();
+};
 
 int menu(List todoList) { // Declares a function that takes a list of TodoItems as an argument
 	while true { // A while loop runs as long as the condition is true (in this case, always)
@@ -27,6 +41,7 @@ int menu(List todoList) { // Declares a function that takes a list of TodoItems 
 		io.print("2. Remove an item\n");
 		io.print("3. Mark an item as done\n");
 		io.print("4. Delete all finished items\n");
+		io.print("5. Save\n");
 		io.print("q. quit\n");
 
 		char [256] input; // This is how you declare an array in aflat.
@@ -38,7 +53,10 @@ int menu(List todoList) { // Declares a function that takes a list of TodoItems 
 			io.print("Add new item\n");
 			io.print("Enter item title: ");
 			io.readString(input);
-			TodoItem newItem = TodoItem(input); // Creates an instance of the TodoItem class and passes the input string to the constructor
+			char [256] dueDate;
+			io.print("Enter due date(mm-dd-yyyy): ");
+			io.readString(dueDate);
+			TodoItem newItem = TodoItem(input, dueDate); // Creates an instance of the TodoItem class and passes the input string to the constructor
 			todoList.pushBack(newItem);
 		} else if choice == '2'{
 			io.print("Remove an item\n");
@@ -68,13 +86,18 @@ int menu(List todoList) { // Declares a function that takes a list of TodoItems 
 					i = i - 1;
 				};
 			};
+		} else if choice == '5' {
+			save(todoList);
 		} else if choice == 'q' return 0 else {
 			if st.len(input) == 0 {
 				io.print("Command failed - you must enter a choice.\n", 'r');
 				io.print("Select enter to continue.");
 				io.readString(input);
 			} else {
-				TodoItem newItem = TodoItem(input);
+				char[256] dueDate;
+				io.print("Enter due date(mm-dd-yyyy): ");
+				io.readString(dueDate);
+				TodoItem newItem = TodoItem(input, dueDate);
 				todoList.pushBack(newItem);
 			};
 		};
@@ -83,7 +106,16 @@ int menu(List todoList) { // Declares a function that takes a list of TodoItems 
 };
 
 int main() { // The main function is the entry point of the program
-	List todoList = new List(TodoItem, 1); // create an empty list with a capacity of 1 TodoItem
-	menu(todoList); // Pass the list to the menu function
+	let saveFile = fs.openFile("todo.txt");
+	if saveFile != NULL {
+		io.print("Loading saved list...\n");
+		let saveList = saveFile.toList('\n');
+		io.print("Loaded ", 'g');
+		saveFile.close();
+		io.print("closed\n");
+		menu(todo.listFromStrings(saveList));
+	} else {
+		menu(List(TodoItem, 1));
+	};
 	return 0;
 };
