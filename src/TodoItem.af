@@ -71,11 +71,10 @@ export List listFromStrings(LinkedList items) {
         String seconds = parts.get(0); // create a String object called getSeconds and set it to the value of the 0'th item in the parts list
         String title = parts.get(1); // create a String object called title and set it to the value of the 1'st item in the parts list
         String done = parts.get(2); // create a String object called done and set it to the value of the 2'nd item in the parts list
-
         // create a TodoItem object called item and set it to a new TodoItem object that has the title and dueDate properties set to the values of the title and dueDate strings
         TodoItem item = new TodoItem(title.getPrimitive(), "00-00-0000");
         item.dueDate = new DateTime(seconds.toInt()); // set the dueDate property of the item to the value of the seconds string converted to an int
-        if done == "1" item.complete(); // if the done string is equal to 1 then call the complete function on the item
+        if done.toInt() == 1 item.complete(); // if the done string is equal to 1 then call the complete function on the item
         l.pushBack(item); // add the item to the l list
         item.print();
         io.print("\n");
