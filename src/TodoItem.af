@@ -8,6 +8,7 @@ import { mmddyyyyToDate, Now } from "DateTime" under dt;
 import { printInt, print } from "io" under io;
 import File from "files";
 import List, LinkedList from "Collections";
+import {readString} from "io" under io;
 
 class TodoItem { // define a class called TodoItem
     const string title = new string(title); // create a constant string called title and set it to the value of the title parameter that is passed to the constructor
@@ -57,13 +58,15 @@ class TodoItem { // define a class called TodoItem
     };
 
     int del() { // the del function is automatically called when the instance of the class is deleted.  It can also be called manually
-        string title = my.title; // create a string called value that is a reference to the value property of the instance of the class
+        let title = my.title; // create a string called value that is a reference to the value property of the instance of the class
         delete title; // delete the title string that was created in the constructor. This will free up the memory that was allocated for the string
+        let dueDate = my.dueDate; // create a DateTime object called dueDate that is a reference to the dueDate property of the instance of the class
+        delete dueDate; // delete the dueDate DateTime object that was created in the constructor. This will free up the memory that was allocated for the DateTime object
     };
 };
 
 export List listFromStrings(LinkedList items) {
-    List l = new List(TodoItem, items.size()); // create a List object called l and set it to a new List object that will hold TodoItem objects
+    List l = new List(TodoItem, items.size(), TodoItem.del); // create a List object called l and set it to a new List object that will hold TodoItem objects
     
     for int i = 0; i < items.size() - 1; i++ {
         let serialized = String(items.get(i)); // create a String object called serialized and set it to the value of the i'th item in the items list

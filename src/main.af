@@ -123,7 +123,7 @@ int main() { // The main function is the entry point of the program
 		io.print("closed\n");
 		menu(todo.listFromStrings(saveList));
 	} else {
-		menu(List(TodoItem, 1));
+		menu(List(TodoItem, 1, TodoItem.del));
 	};
 	return 0;
 };
