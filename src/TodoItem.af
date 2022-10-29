@@ -8,7 +8,7 @@ import { mmddyyyyToDate, Now } from "DateTime" under dt;
 import { printInt, print } from "io" under io;
 import File from "files";
 import List, LinkedList from "Collections";
-import {readString} from "io" under io;
+import {readString, fPrint} from "io" under io;
 
 class TodoItem { // define a class called TodoItem
     const string title = new string(title); // create a constant string called title and set it to the value of the title parameter that is passed to the constructor
@@ -25,13 +25,16 @@ class TodoItem { // define a class called TodoItem
         string complete = "✓"; // create a string called complete and set it to the ✓ character
         if !my.done complete = "✗"; // if the done property is false then set the complete string to the ✗ character
         if (time < -86400) & (!my.done) complete = "⚠"; // if the time is less than 0 and the done property is false then set the complete string to the ⚠ character
-        st.print(complete + "  Title: " + my.title); // print the complete string and the title string to the console
-        io.print("\t\t\tDue Date: ");
-        io.printInt(my.dueDate.getMonth()); // print the month of the dueDate to the console
-        io.print("/");
-        io.printInt(my.dueDate.getDay()); // print the day of the dueDate to the console
-        io.print("/");
-        io.printInt(my.dueDate.getYear()); // print the year of the dueDate to the 
+
+        // st.print(complete + "  Title: " + my.title); // print the complete string and the title string to the console
+        // io.print("\t\t\tDue Date: ");
+        // io.printInt(my.dueDate.getMonth()); // print the month of the dueDate to the console
+        // io.print("/");
+        // io.printInt(my.dueDate.getDay()); // print the day of the dueDate to the console
+        // io.print("/");
+        // io.printInt(my.dueDate.getYear()); // print the year of the dueDate to the 
+
+        io.fPrint("%s  Title: %s\t\t\tDue Date: %d/%d/%d", {complete, my.title, my.dueDate.getMonth(), my.dueDate.getDay(), my.dueDate.getYear()}); // print the complete string and the title string to the console
         return 0;
     };
 
@@ -65,10 +68,10 @@ class TodoItem { // define a class called TodoItem
     };
 };
 
-export List listFromStrings(LinkedList items) {
-    List l = new List(TodoItem, items.size(), TodoItem.del); // create a List object called l and set it to a new List object that will hold TodoItem objects
-    
-    for int i = 0; i < items.size() - 1; i++ {
+export List listFromStrings(List items) {
+    List l = new List(TodoItem, items.getCount(), TodoItem.del); // create a List object called l and set it to a new List object that will hold TodoItem objects
+
+    for int i = 0; i < items.getCount() - 1; i++ {
         let serialized = String(items.get(i)); // create a String object called serialized and set it to the value of the i'th item in the items list
         let parts = serialized.split(';'); // create a LinkedList object called parts and set it to the result of splitting the serialized string on the ; character
         String seconds = parts.get(0); // create a String object called getSeconds and set it to the value of the 0'th item in the parts list
