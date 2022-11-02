@@ -71,7 +71,6 @@ export List listFromStrings(List items) {
         item.dueDate = new DateTime(seconds.toInt()); // set the dueDate property of the item to the value of the seconds string converted to an int
         if done.toInt() == 1 item.complete(); // if the done string is equal to 1 then call the complete function on the item
         l.pushBack(item); // add the item to the l list
-        item.print();
         io.print("\n");
     };
     return l; // return the l list
