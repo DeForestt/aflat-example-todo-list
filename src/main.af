@@ -25,9 +25,7 @@ adr save(List _arg) : async.worker {
 int menu(List todoList) { // Declares a function that takes a list of TodoItems as an argument
 	while true { // A while loop runs as long as the condition is true (in this case, always)
 		io.clear(); // This is a function in the io module that clears the console
-		adr plural;
-		if todoList.getCount() == 1 plural = "item"
-		else plural = "items";
+		adr plural = if todoList.getCount() == 1 then "item" else "items"; // This is a ternary operator. It is a shortcut for an if statement. If the condition is true, it returns the first value, otherwise it returns the second value
 		io.fPrint("Your List( ✓ : done,  ✗ : pending, ⚠ : overdue ): %d %a on your list\n", {todoList.getCount(), plural}); // This is a function in the print module that prints a string to the console
 		io.print("-------------------------------------------------------------\n");
 		todoList.forEach([TodoItem item, int index] => { // The List class has a forEach function that takes a lambda as an argument;
