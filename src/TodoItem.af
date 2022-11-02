@@ -1,7 +1,7 @@
 .needs <std> // include the standard library header file that has some functions that are needed for most aflat programs to run
 
 import string, String from "String"; // import the string library from the standard String module
-import { print, printString } from "String" under st; // import the print function from the standard String module and put it under the st namespace
+import { print, printString, fString } from "String" under st; // import the print function from the standard String module and put it under the st namespace
 import { int_toString, str_toInt } from "strings" under strings;
 import DateTime from "DateTime";
 import { mmddyyyyToDate, Now } from "DateTime" under dt;
@@ -19,12 +19,11 @@ class TodoItem { // define a class called TodoItem
         return my; // return the instance of the class that is being created 'my is always a reference to the instance of the class'
     };
 
-    int print() { // define a function called print that returns an int
+    string toString() { // define the toString function for the TodoItem class
         let now = dt.Now(5); // create a DateTime object called now and set it to the current date and time
-        let time = my.dueDate.getSeconds() - now.getSeconds(); // create an int called daysLeft and set it to the difference between the due date and the current date and time
+        let time = my.dueDate.getSeconds() - now.getSeconds(); // create an int called time and set it to the difference between the due date and the current date and time
         const string complete = if my.done "✓" else  if time < -86400 "⚠" else "✗"; // create a constant string called complete and set it to a check mark if the item is done, a warning sign if the item is overdue, or an X if the item is not done and not overdue
-        io.fPrint("%s  Title: %s\t\t\tDue Date: %d/%d/%d", {complete, my.title, my.dueDate.getMonth(), my.dueDate.getDay(), my.dueDate.getYear()}); // print the complete string and the title string to the console
-        return 0;
+        return st.fString("%s  Title: %s\t\t\tDue Date: %d/%d/%d", {complete, my.title, my.dueDate.getMonth(), my.dueDate.getDay(), my.dueDate.getYear()}); // return a formatted string that contains the complete string, the title string, and the due date
     };
 
     int complete() {

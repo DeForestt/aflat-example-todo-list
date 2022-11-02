@@ -28,11 +28,8 @@ int menu(List todoList) { // Declares a function that takes a list of TodoItems 
 		adr plural = if todoList.getCount() == 1 "item" else "items"; // This is a ternary operator. It is a shortcut for an if statement. If the condition is true, it returns the first value, otherwise it returns the second value
 		io.fPrint("Your List( ✓ : done,  ✗ : pending, ⚠ : overdue ): %d %a on your list\n", {todoList.getCount(), plural}); // This is a function in the print module that prints a string to the console
 		io.print("-------------------------------------------------------------\n");
-		todoList.forEach([TodoItem item, int index] => { // The List class has a forEach function that takes a lambda as an argument;
-			io.fPrint("%d: ", {index + 1}); // The fPrint function takes a string and a list of arguments to replace the %a's in the string with
-			item.print();
-			io.print("\n");
-		});
+		// The List class has a forEach function that takes a lambda as an argument;
+		todoList.forEach([TodoItem item, int index] => io.fPrint("%d: %s\n", {index + 1, item.toString()}));
 
 		if todoList.getCount() == 0 { // The List class has a getCount function that returns the number of items in the list
 			io.print("Congratulations! You've finished the TODO list!\n");
