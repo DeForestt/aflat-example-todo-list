@@ -22,18 +22,7 @@ class TodoItem { // define a class called TodoItem
     int print() { // define a function called print that returns an int
         let now = dt.Now(5); // create a DateTime object called now and set it to the current date and time
         let time = my.dueDate.getSeconds() - now.getSeconds(); // create an int called daysLeft and set it to the difference between the due date and the current date and time
-        string complete = "✓"; // create a string called complete and set it to the ✓ character
-        if !my.done complete = "✗"; // if the done property is false then set the complete string to the ✗ character
-        if (time < -86400) & (!my.done) complete = "⚠"; // if the time is less than 0 and the done property is false then set the complete string to the ⚠ character
-
-        // st.print(complete + "  Title: " + my.title); // print the complete string and the title string to the console
-        // io.print("\t\t\tDue Date: ");
-        // io.printInt(my.dueDate.getMonth()); // print the month of the dueDate to the console
-        // io.print("/");
-        // io.printInt(my.dueDate.getDay()); // print the day of the dueDate to the console
-        // io.print("/");
-        // io.printInt(my.dueDate.getYear()); // print the year of the dueDate to the 
-
+        const string complete = if my.done "✓" else  if time < -86400 "⚠" else "✗"; // create a constant string called complete and set it to a check mark if the item is done, a warning sign if the item is overdue, or an X if the item is not done and not overdue
         io.fPrint("%s  Title: %s\t\t\tDue Date: %d/%d/%d", {complete, my.title, my.dueDate.getMonth(), my.dueDate.getDay(), my.dueDate.getYear()}); // print the complete string and the title string to the console
         return 0;
     };

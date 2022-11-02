@@ -25,7 +25,7 @@ adr save(List _arg) : async.worker {
 int menu(List todoList) { // Declares a function that takes a list of TodoItems as an argument
 	while true { // A while loop runs as long as the condition is true (in this case, always)
 		io.clear(); // This is a function in the io module that clears the console
-		adr plural = if todoList.getCount() == 1 then "item" else "items"; // This is a ternary operator. It is a shortcut for an if statement. If the condition is true, it returns the first value, otherwise it returns the second value
+		adr plural = if todoList.getCount() == 1 "item" else "items"; // This is a ternary operator. It is a shortcut for an if statement. If the condition is true, it returns the first value, otherwise it returns the second value
 		io.fPrint("Your List( ✓ : done,  ✗ : pending, ⚠ : overdue ): %d %a on your list\n", {todoList.getCount(), plural}); // This is a function in the print module that prints a string to the console
 		io.print("-------------------------------------------------------------\n");
 		todoList.forEach([TodoItem item, int index] => { // The List class has a forEach function that takes a lambda as an argument;
@@ -58,7 +58,7 @@ int menu(List todoList) { // Declares a function that takes a list of TodoItems 
 			io.print("Enter item title: ");
 			io.readString(input);
 			char [256] dueDate;
-			io.print("Enter due date(mm-dd-yyyy): ");
+			io.fPrint("When is \"%a\" due? (mm-dd-yyyy): ", {input});
 			io.readString(dueDate);
 			TodoItem newItem = TodoItem(input, dueDate); // Creates an instance of the TodoItem class and passes the input string to the constructor
 			todoList.pushBack(newItem);
@@ -82,14 +82,19 @@ int menu(List todoList) { // Declares a function that takes a list of TodoItems 
 			TodoItem selected = todoList.get(i - 1);
 			selected.complete();
 		} else if choice == '4' {
+			int count = 0;
 			for int i = 0; i < todoList.getCount(); i++ { // This is you can use a for loop in aflat
 				TodoItem current = todoList.get(i); // The List class has a get function that returns the item at the specified index
 				if current.isCompleted() {
 					current.del(); // Calls the del function on the current item
 					todoList.drop(i); // The List class has a drop function that removes the item at the specified index
 					i = i - 1;
+					count = count + 1;
 				};
 			};
+			plural = if count == 1 "item" else "items";
+			io.fPrint("Deleted %d %a \n Select Enter to continue", {count, plural});
+			io.readString(input);
 		} else if choice == '5' {
 			save(todoList);
 		} else if choice == 'q' return 0
@@ -103,7 +108,7 @@ int menu(List todoList) { // Declares a function that takes a list of TodoItems 
 				io.readString(input);
 			} else {
 				char[256] dueDate;
-				io.print("Enter due date(mm-dd-yyyy): ");
+				io.fPrint("When is \"%a\" due? (mm-dd-yyyy): ", {input});
 				io.readString(dueDate);
 				TodoItem newItem = TodoItem(input, dueDate);
 				todoList.pushBack(newItem);
